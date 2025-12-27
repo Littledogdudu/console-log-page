@@ -1,0 +1,111 @@
+---
+interface Props {
+	icon: string;
+	title: string;
+	description: string;
+	delay?: number;
+}
+
+const { icon, title, description, delay = 0 } = Astro.props;
+---
+
+<div class="feature-card" style={`animation-delay: ${delay}ms`}>
+	<div class="feature-icon">{icon}</div>
+	<h3>{title}</h3>
+	<p>{description}</p>
+</div>
+
+<style>
+	.feature-card {
+		background: rgba(30, 41, 59, 0.5);
+		backdrop-filter: blur(20px);
+		border-radius: 24px;
+		padding: 40px 30px;
+		border: 1px solid rgba(96, 165, 250, 0.2);
+		position: relative;
+		overflow: hidden;
+		transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+		animation: fadeInUp 0.8s ease backwards;
+		box-shadow:
+			0 8px 32px rgba(0, 0, 0, 0.3),
+			inset 0 1px 0 rgba(255, 255, 255, 0.1);
+	}
+
+	@keyframes fadeInUp {
+		from {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.feature-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 3px;
+		background: linear-gradient(90deg, #3b82f6, #8b5cf6, #f472b6);
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.feature-card:hover::before {
+		transform: scaleX(1);
+	}
+
+	.feature-card:hover {
+		transform: translateY(-10px) rotateX(5deg);
+		border-color: rgba(96, 165, 250, 0.4);
+		box-shadow:
+			0 20px 60px rgba(96, 165, 250, 0.3),
+			0 0 40px rgba(139, 92, 246, 0.2),
+			inset 0 1px 0 rgba(255, 255, 255, 0.2);
+	}
+
+	/* 卡片图标 */
+	.feature-icon {
+		font-size: 3.5rem;
+		margin-bottom: 20px;
+		display: inline-block;
+		animation: pulse 2s ease-in-out infinite;
+	}
+
+	@keyframes pulse {
+		0%, 100% {
+			transform: scale(1);
+		}
+		50% {
+			transform: scale(1.1);
+		}
+	}
+
+	/* 卡片标题 */
+	.feature-card h3 {
+		font-size: 1.5rem;
+		font-weight: 700;
+		margin-bottom: 12px;
+		background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	/* 卡片描述 */
+	.feature-card p {
+		color: #cbd5e1;
+		line-height: 1.7;
+		font-size: 1rem;
+	}
+
+	@media (max-width: 640px) {
+		.feature-card {
+			padding: 30px 24px;
+		}
+	}
+</style>

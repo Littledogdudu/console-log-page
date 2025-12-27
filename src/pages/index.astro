@@ -2,48 +2,401 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import FeatureCard from '../components/FeatureCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const age = (new Date()).getFullYear() - 2002;
+// 欢迎页面特性数据
+const welcomeFeatures = [
+	{
+		icon: "⌛️",
+		title: `已年近${age <= 25 ? '百中一刻' : age <= 50 ? '半百，还没熬出头' : '快入坟了，还没退休'}`,
+		description: `现在的我已经${age}岁了！`,
+		delay: 0
+	},
+	{
+		icon: "🤔",
+		title: "多少钱算够",
+		description: "算了，一边挣一边花吧",
+		delay: 100
+	},
+	{
+		icon: "🚗",
+		title: "要买什么车呢",
+		description: "还要自己作自己的车夫吗，还是公交车🚌和地铁🚇来的更舒服吧，我只需要站着或坐着，其他都不用我想了😋",
+		delay: 200
+	},
+	{
+		icon: "👧",
+		title: "以后不会光棍了吧",
+		description: "吓哭了😭",
+		delay: 300
+	}
+];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			/* 深蓝半透明科技风全局样式 */
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			body {
+				background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f172a 100%);
+				min-height: 100vh;
+				color: #e2e8f0;
+				font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+					'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+					sans-serif;
+				position: relative;
+				overflow-x: hidden;
+			}
+
+			/* 动态背景网格 */
+			body::before {
+				content: '';
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background-image:
+					linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+					linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+				background-size: 50px 50px;
+				animation: gridMove 20s linear infinite;
+				pointer-events: none;
+				z-index: 0;
+			}
+
+			@keyframes gridMove {
+				0% {
+					transform: translate(0, 0);
+				}
+				100% {
+					transform: translate(50px, 50px);
+				}
+			}
+
+			/* 发光粒子效果 */
+			body::after {
+				content: '';
+				position: fixed;
+				top: -100%;
+				left: -50%;
+				width: 200%;
+				height: 100%;
+				background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+				animation: rotate 20s linear infinite;
+				pointer-events: none;
+				z-index: 0;
+			}
+
+			@keyframes rotate {
+				from { transform: rotate(0deg); }
+				to { transform: rotate(360deg); }
+			}
+
+			/* 浮动粒子容器 */
+			.particles {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				pointer-events: none;
+				z-index: 1;
+				overflow: hidden;
+			}
+
+			.particle {
+				position: absolute;
+				background: radial-gradient(circle, rgba(96, 165, 250, 0.6) 0%, transparent 70%);
+				border-radius: 50%;
+				animation: float 15s infinite ease-in-out;
+			}
+
+			@keyframes float {
+				0%, 100% {
+					transform: translateY(100vh) rotate(0deg);
+					opacity: 0;
+				}
+				10% {
+					opacity: 1;
+				}
+				90% {
+					opacity: 1;
+				}
+				100% {
+					transform: translateY(-100vh) rotate(720deg);
+					opacity: 0;
+				}
+			}
+
+			.welcome-container {
+				max-width: 1400px;
+				margin: 0 auto;
+				padding: 120px 20px 60px 20px;
+				position: relative;
+				z-index: 2;
+			}
+
+			/* 英雄区域 */
+			.hero-section {
+				text-align: center;
+				margin-bottom: 100px;
+				position: relative;
+			}
+
+			/* 打字机效果标题 */
+			.hero-title {
+				font-size: 4.5rem;
+				font-weight: 800;
+				margin-bottom: 30px;
+				background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+				background-size: 200% auto;
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				background-clip: text;
+				animation: gradientShift 3s ease infinite, fadeInUp 1s ease;
+				text-shadow: 0 0 60px rgba(96, 165, 250, 0.5);
+				letter-spacing: -2px;
+				position: relative;
+				display: inline-block;
+			}
+
+			@keyframes gradientShift {
+				0%, 100% {
+					background-position: 0% center;
+				}
+				50% {
+					background-position: 100% center;
+				}
+			}
+
+			@keyframes fadeInUp {
+				from {
+					opacity: 0;
+					transform: translateY(30px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			/* 打字光标效果 */
+			.hero-title::after {
+				content: '|';
+				position: absolute;
+				right: -10px;
+				animation: blink 1s step-end infinite;
+				color: #60a5fa;
+			}
+
+			@keyframes blink {
+				0%, 100% { opacity: 1; }
+				50% { opacity: 0; }
+			}
+
+			/* 副标题 */
+			.hero-subtitle {
+				font-size: 1.5rem;
+				color: #94a3b8;
+				margin-bottom: 20px;
+				animation: fadeInUp 1s ease 0.3s backwards;
+			}
+
+			/* 打字效果的副标题 */
+			.typewriter {
+				display: inline-block;
+				overflow: hidden;
+				white-space: nowrap;
+				border-right: 3px solid #60a5fa;
+				animation:
+					typing 1s steps(18, end),
+					blink-caret 0.75s step-end infinite;
+			}
+
+			@keyframes typing {
+				from { width: 0 }
+				to { width: 196px }
+			}
+
+			@keyframes blink-caret {
+				from, to { border-color: transparent }
+				50% { border-color: #60a5fa }
+			}
+
+			/* CTA 按钮 */
+			.cta-button {
+				display: inline-block;
+				padding: 18px 48px;
+				font-size: 1.1rem;
+				font-weight: 600;
+				color: white;
+				background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+				border: none;
+				border-radius: 50px;
+				cursor: pointer;
+				text-decoration: none;
+				position: relative;
+				overflow: hidden;
+				transition: all 0.4s ease;
+				animation: fadeInUp 1s ease 0.6s backwards;
+				box-shadow:
+					0 4px 15px rgba(59, 130, 246, 0.4),
+					0 0 30px rgba(139, 92, 246, 0.2);
+			}
+
+			.cta-button::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: -100%;
+				width: 100%;
+				height: 100%;
+				background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+				transition: left 0.6s;
+			}
+
+			.cta-button:hover::before {
+				left: 100%;
+			}
+
+			.cta-button:hover {
+				transform: translateY(-3px) scale(1.05);
+				box-shadow:
+					0 8px 25px rgba(59, 130, 246, 0.6),
+					0 0 50px rgba(139, 92, 246, 0.4);
+			}
+
+			/* 特性卡片网格 */
+			.features-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+				gap: 30px;
+				margin-top: 80px;
+			}
+
+			/* 装饰性圆圈 */
+			.decoration-circle {
+				position: absolute;
+				border-radius: 50%;
+				background: linear-gradient(135deg, rgba(96, 165, 250, 0.1), rgba(139, 92, 246, 0.1));
+				animation: rotate 30s linear infinite;
+				pointer-events: none;
+			}
+
+			.circle-1 {
+				width: 400px;
+				height: 400px;
+				top: 10%;
+				right: -100px;
+			}
+
+			.circle-2 {
+				width: 300px;
+				height: 300px;
+				bottom: 20%;
+				left: -50px;
+				animation-direction: reverse;
+			}
+
+			/* 响应式设计 */
+			@media (max-width: 1024px) {
+				.hero-title {
+					font-size: 3.5rem;
+				}
+
+				.hero-subtitle {
+					font-size: 1.2rem;
+				}
+
+				.features-grid {
+					grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+					gap: 25px;
+				}
+			}
+
+			@media (max-width: 640px) {
+				.welcome-container {
+					padding: 100px 15px 40px 15px;
+				}
+
+				.hero-title {
+					font-size: 2.5rem;
+				}
+
+				.hero-subtitle {
+					font-size: 1rem;
+				}
+
+				.cta-button {
+					padding: 15px 36px;
+					font-size: 1rem;
+				}
+
+				.features-grid {
+					grid-template-columns: 1fr;
+				}
+
+				.decoration-circle {
+					display: none;
+				}
+			}
+		</style>
 	</head>
 	<body>
 		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
+
+		<!-- 浮动粒子 -->
+		<div class="particles">
+			<div class="particle" style="width: 6px; height: 6px; left: 10%; animation-delay: 0s;"></div>
+			<div class="particle" style="width: 8px; height: 8px; left: 20%; animation-delay: 2s;"></div>
+			<div class="particle" style="width: 4px; height: 4px; left: 30%; animation-delay: 4s;"></div>
+			<div class="particle" style="width: 7px; height: 7px; left: 40%; animation-delay: 1s;"></div>
+			<div class="particle" style="width: 5px; height: 5px; left: 50%; animation-delay: 3s;"></div>
+			<div class="particle" style="width: 9px; height: 9px; left: 60%; animation-delay: 5s;"></div>
+			<div class="particle" style="width: 6px; height: 6px; left: 70%; animation-delay: 2.5s;"></div>
+			<div class="particle" style="width: 8px; height: 8px; left: 80%; animation-delay: 4.5s;"></div>
+			<div class="particle" style="width: 5px; height: 5px; left: 90%; animation-delay: 1.5s;"></div>
+		</div>
+
+		<!-- 装饰圆圈 -->
+		<div class="decoration-circle circle-1"></div>
+		<div class="decoration-circle circle-2"></div>
+
+		<div class="welcome-container">
+			<!-- 英雄区域 -->
+			<section class="hero-section">
+				<h1 class="hero-title">SkySource's Blog</h1>
+				<p class="hero-subtitle">
+					<span class="typewriter">some tools is here</span>
+				</p>
+				<a href="/console-log" class="cta-button">开始探索 →</a>
+			</section>
+
+			<!-- 特性卡片 -->
+			<div class="features-grid">
+				{welcomeFeatures.map((feature) => (
+					<FeatureCard
+						icon={feature.icon}
+						title={feature.title}
+						description={feature.description}
+						delay={feature.delay}
+						:key={feature.title}
+					/>
+				))}
+			</div>
+		</div>
+
 		<Footer />
 	</body>
 </html>
