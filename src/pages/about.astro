@@ -1,63 +1,234 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import {SITE_DESCRIPTION, SITE_TITLE} from "../consts.ts";
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import HikariTairitsu from "../assets/Hikari-Tairitsu.jpg";
+import LUCKY_STAR from "../assets/圣诞泉此方.png";
+import Bocchi_the_Rock from "../assets/孤独摇滚.jpg";
+import TairitsuSaclia from "../assets/Tairitsu_Saclia.jpg";
+import AI_LA from "../assets/艾拉.jpg";
+import BA from "../assets/砂狼白子.jpg";
+import MOE_YU from "../assets/moeyu.png";
+import GET_PLACE from "../assets/让一让腾个地方要饭了.png";
+import Dog from "../assets/littledogdudu.jpg";
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
->
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+<html lang="zh-CN">
+<head>
+  <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION}/>
+  <style>
+    .gallery-container {
+      position: relative;
+      width: 100%;
+      max-width: 1400px;
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 60px 40px;
+      overflow: hidden;
+      background: transparent;
+      box-sizing: border-box;
+    }
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+    .photo-wrapper {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+    .photo {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      border: 8px solid white;
+      object-fit: cover;
+      display: block;
+    }
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+    .artist-label {
+      margin-top: 6px;
+      font-size: 11px;
+      color: #555;
+      font-style: italic;
+      text-align: center;
+      opacity: 0.8;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.9);
+      max-width: 100%;
+    }
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+    .artist-label:empty {
+      display: none;
+    }
+
+    .photo-wrapper:hover .photo {
+      transform: scale(1.08) rotate(0deg) !important;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      z-index: 1000 !important;
+    }
+
+    .wrapper-1 {
+      top: 5%;
+      left: 15%;
+      z-index: 3;
+    }
+    .wrapper-1 .photo {
+      width: 250px;
+      height: 310px;
+      transform: rotate(-15deg);
+    }
+
+    .wrapper-2 {
+      top: 3%;
+      left: 65%;
+      z-index: 5;
+    }
+    .wrapper-2 .photo {
+      width: 270px;
+      height: 240px;
+      transform: rotate(12deg);
+    }
+
+    .wrapper-3 {
+      top: 30%;
+      left: 20%;
+      z-index: 2;
+    }
+    .wrapper-3 .photo {
+      width: 260px;
+      height: 280px;
+      transform: rotate(-7deg);
+    }
+
+    .wrapper-4 {
+      top: 25%;
+      left: 58%;
+      z-index: 4;
+    }
+    .wrapper-4 .photo {
+      width: 290px;
+      height: 250px;
+      transform: rotate(18deg);
+    }
+
+    .wrapper-5 {
+      top: 52%;
+      left: 25%;
+      z-index: 6;
+    }
+    .wrapper-5 .photo {
+      width: 255px;
+      height: 300px;
+      transform: rotate(-5deg);
+    }
+
+    .wrapper-6 {
+      top: 48%;
+      left: 62%;
+      z-index: 7;
+    }
+    .wrapper-6 .photo {
+      width: 275px;
+      height: 255px;
+      transform: rotate(8deg);
+    }
+
+    .wrapper-7 {
+      top: 72%;
+      left: 8%;
+      z-index: 8;
+    }
+    .wrapper-7 .photo {
+      width: 265px;
+      height: 265px;
+      transform: rotate(-10deg);
+    }
+
+    .wrapper-8 {
+      top: 18%;
+      left: 38%;
+      z-index: 1;
+    }
+    .wrapper-8 .photo {
+      width: 240px;
+      height: 270px;
+      transform: rotate(22deg);
+    }
+
+    .wrapper-9 {
+      top: 40%;
+      left: 45%;
+      z-index: 9;
+    }
+    .wrapper-9 .photo {
+      width: 280px;
+      height: 240px;
+      transform: rotate(-13deg);
+    }
+
+    @media (max-width: 768px) {
+      .photo-wrapper {
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        margin: 20px auto;
+      }
+
+      .photo-wrapper .photo {
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+<Header/>
+
+<div class="gallery-container">
+  <div class="photo-wrapper wrapper-1">
+    <img class="photo" src={HikariTairitsu.src} alt="" />
+    <span class="artist-label">pivix: 物黍</span>
+  </div>
+
+  <div class="photo-wrapper wrapper-2">
+    <img class="photo" src={LUCKY_STAR.src} alt="" />
+    <span class="artist-label"></span>
+  </div>
+
+  <div class="photo-wrapper wrapper-3">
+    <img class="photo" src={Bocchi_the_Rock.src} alt="" />
+    <span class="artist-label"></span>
+  </div>
+
+  <div class="photo-wrapper wrapper-4">
+    <img class="photo" src={BA.src} alt="" />
+    <span class="artist-label"></span>
+  </div>
+
+  <div class="photo-wrapper wrapper-5">
+    <img class="photo" src={AI_LA.src} alt="" />
+    <span class="artist-label">pivix: 相良 青</span>
+  </div>
+
+  <div class="photo-wrapper wrapper-6">
+    <img class="photo" src={TairitsuSaclia.src} alt="" />
+    <span class="artist-label">pivix: Saclia</span>
+  </div>
+
+  <div class="photo-wrapper wrapper-7">
+    <img class="photo" src={MOE_YU.src} alt="" />
+    <span class="artist-label">pivix: Loading...</span>
+  </div>
+
+  <div class="photo-wrapper wrapper-8">
+    <img class="photo" src={GET_PLACE.src} alt="" />
+    <span class="artist-label"></span>
+  </div>
+
+  <div class="photo-wrapper wrapper-9">
+    <img class="photo" src={Dog.src} alt="" />
+    <span class="artist-label">You are being in my heart</span>
+  </div>
+</div>
+
+</body>
+</html>

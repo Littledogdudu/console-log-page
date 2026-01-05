@@ -42,11 +42,12 @@
 body {
   background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f172a 100%);
   min-height: 100vh;
+  padding: 120px 20px 60px 20px;
+  position: relative;
   color: #e2e8f0;
   font-family: -apple-system, 'atkinson-bold', 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   sans-serif;
-  position: relative;
   overflow-x: hidden;
 }
 
