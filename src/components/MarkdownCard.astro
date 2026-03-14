@@ -1,13 +1,14 @@
 ---
 interface Props {
-	content: string;
+  content: string;
+  reverse?: boolean; // 新增属性
 }
 
-const { content } = Astro.props;
+const { content, reverse = false } = Astro.props;
 ---
 
-<div class="markdown-card">
-	<div class="markdown-content" set:html={content} />
+<div class={`markdown-card ${reverse ? 'is-reverse' : ''}`}>
+  <div class="markdown-content" set:html={content} />
 </div>
 
 <style>
@@ -38,9 +39,7 @@ const { content } = Astro.props;
 		transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
-	.markdown-card:hover::before {
-		transform: scaleX(1);
-	}
+  /* 核心逻辑：根据父级类名控制列表样式 */
 
 	.markdown-card:hover {
 		border-color: rgba(96, 165, 250, 0.4);
@@ -97,19 +96,38 @@ const { content } = Astro.props;
 		font-weight: bold;
 	}
 
-	@media (max-width: 1024px) {
-		.markdown-card {
-			padding: 30px;
-		}
-	}
+  .is-reverse .markdown-content :global(li) {
+    padding-left: 0;
+    padding-right: 30px;
+    text-align: right;
+  }
 
-	@media (max-width: 640px) {
-		.markdown-card {
-			padding: 24px;
-		}
+  .is-reverse .markdown-content :global(li::before) {
+    content: '◃';
+    left: auto;
+    right: 0;
+  }
 
-		.markdown-content :global(h2) {
-			font-size: 1.5rem;
-		}
-	}
+  /* 标题随之对齐 */
+  .is-reverse .markdown-content :global(h2),
+  .is-reverse .markdown-content :global(h3),
+  .is-reverse .markdown-content :global(p) {
+    text-align: right;
+  }
+
+  @media (max-width: 1024px) {
+    .markdown-card {
+      padding: 30px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .markdown-card {
+      padding: 24px;
+    }
+
+    .markdown-content :global(h2) {
+      font-size: 1.5rem;
+    }
+  }
 </style>

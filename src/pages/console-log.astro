@@ -5,51 +5,8 @@ import {SITE_DESCRIPTION, SITE_TITLE} from "../consts.ts";
 import BaseHead from "../components/BaseHead.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
+import { pluginFeatures } from "./config/data.js";
 
-// 插件功能数据
-const pluginFeatures = [
-  {
-    id: 1,
-    title: "基础功能",
-    gifUrl: "/images/plugins/basic/basic-1.gif",
-    description: `
-			<h2>基础功能（以下为默认快捷键）</h2>
-			<ul>
-				<li>Alt + 1: 生成当前光标所在变量的console.log语句</li>
-				<li>Alt + 2: 删除所有插件生成的console.log语句</li>
-				<li>Alt + Shift + 1: 注释所有插件生成的console.log语句</li>
-				<li>Alt + Shift + 2: 解注释所有插件生成的console.log语句</li>
-			</ul>
-		`
-  },
-  {
-    id: 2,
-    title: "选中区域内操作",
-    gifUrl: "/images/plugins/basic/basic-2.gif",
-    description: `
-			<h2>选中区域内操作</h2>
-			<h3>可仅对选中区域内的console.log表达式的操作如下</h3>
-			<ul>
-				<li>删除</li>
-				<li>注释</li>
-				<li>解注释</li>
-			</ul>
-		`
-  },
-  {
-    id: 3,
-    title: "无变量打印",
-    gifUrl: "/images/plugins/basic/basic-3.gif",
-    description: `
-			<h2>无变量选中时也可生成用于标记的console.log表达式</h2>
-			<p align="right">——默认不开启，需要自行设置开启</p>
-			<ul>
-				<li>光标不在变量中且没有选中变量时生成</li>
-				<li>Alt + 1生成</li>
-			</ul>
-		`
-  },
-];
 ---
 
 <html lang="zh-CN">
@@ -212,7 +169,7 @@ const pluginFeatures = [
             <GifCard gifUrl={feature.gifUrl} title={feature.title}/>
 
             <!-- Markdown 说明卡片 -->
-            <MarkdownCard content={feature.description}/>
+            <MarkdownCard content={feature.description} reverse={index % 2 === 1}/>
           </div>
   ))}
 </div>
