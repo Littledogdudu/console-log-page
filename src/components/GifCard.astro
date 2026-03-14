@@ -1,13 +1,14 @@
 ---
 interface Props {
+  id: number;
 	gifUrl?: string;
 	title: string;
 }
 
-const { gifUrl, title } = Astro.props;
+const { id, gifUrl, title } = Astro.props;
 ---
 
-<div id={`gif-card-${title}`} class="gif-card">
+<div id={`gif-card-${id}`} class="gif-card">
 	{gifUrl ? (
 		<img src={gifUrl} alt={title} />
 	) : (
@@ -17,7 +18,7 @@ const { gifUrl, title } = Astro.props;
 	)}
 </div>
 
-<dialog id={`gif-modal-${title}`} class="gif-modal">
+<dialog id={`gif-modal-${id}`} class="gif-modal">
 	<div class="modal-content">
 		<button class="close-button" aria-label="关闭图片">✕</button>
 		{gifUrl && <img src={gifUrl} alt={`${title} 放大查看`} class="modal-image" />}
@@ -37,6 +38,7 @@ const { gifUrl, title } = Astro.props;
 		position: relative;
 		overflow: hidden;
 		transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
 	}
 
 	.gif-card::before {
@@ -185,9 +187,9 @@ const { gifUrl, title } = Astro.props;
 	}
 </style>
 
-<script define:vars={{ gifUrl, title }}>
-	const modal = document.getElementById(`gif-modal-${title}`);
-	const triggerImg = document.querySelector(`#gif-card-${title} img`);
+<script define:vars={{ id, gifUrl, title }}>
+	const modal = document.getElementById(`gif-modal-${id}`);
+	const triggerImg = document.querySelector(`#gif-card-${id} img`);
 	const closeBtn = modal?.querySelector('.close-button');
 
 	// 点击图片打开modal

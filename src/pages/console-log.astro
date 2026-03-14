@@ -156,7 +156,7 @@ import { pluginFeatures } from "./config/data.js";
 <div class="container">
   <h1 class="page-title">Console Log Plugin</h1>
   <p class="page-subtitle">
-    适用于IDEA、Webstorm的打印console.log表达式插件
+    适用于IDEA、Webstorm的打印console.log表达式插件（GIF图片点击放大预览）
   </p>
   <div class="download-section">
     <a href="https://github.com/Littledogdudu/ConsoleLog/releases" class="download-button" target="_blank" rel="noopener noreferrer"
@@ -166,7 +166,7 @@ import { pluginFeatures } from "./config/data.js";
   {pluginFeatures.map((feature, index) => (
           <div class={`feature-row ${index % 2 === 1 ? 'reverse' : ''}`} key={feature.id}>
             <!-- GIF 卡片 -->
-            <GifCard gifUrl={feature.gifUrl} title={feature.title}/>
+            <GifCard gifUrl={feature.gifUrl} title={feature.title} id={feature.id} />
 
             <!-- Markdown 说明卡片 -->
             <MarkdownCard content={feature.description} reverse={index % 2 === 1}/>
